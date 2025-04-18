@@ -236,6 +236,30 @@ const allUsers: User[] = [
 	},
 ]
 
+const selectedUser: User = {
+	id: 2,
+	name: 'Ervin Howell',
+	username: 'Antonette',
+	email: 'Shanna@melissa.tv',
+	address: {
+		street: 'Victor Plains',
+		suite: 'Suite 879',
+		city: 'Wisokyburgh',
+		zipcode: '90566-7771',
+		geo: {
+			lat: '-43.9509',
+			lng: '-34.4618',
+		},
+	},
+	phone: '010-692-6593 x09125',
+	website: 'anastasia.net',
+	company: {
+		name: 'Deckow-Crist',
+		catchPhrase: 'Proactive didactic contingency',
+		bs: 'synergize scalable supply-chains',
+	},
+}
+
 // Function to shuffle arrays that uses Fisher-Yates shuffle method
 function shuffleArray<T>(array: T[]): T[] {
 	const shuffled = [...array]
@@ -249,6 +273,7 @@ function shuffleArray<T>(array: T[]): T[] {
 export const useUserStore = defineStore('User', {
 	state: () => ({
 		allUsers: allUsers,
+		selectedUser: selectedUser,
 	}),
 	getters: {
 		// Shuffling the array to be able to demonstrate pagination better
@@ -257,6 +282,7 @@ export const useUserStore = defineStore('User', {
 			...shuffleArray(state.allUsers),
 			...shuffleArray(state.allUsers),
 		],
+		getSelectedUser: (state) => state.selectedUser,
 	},
 	actions: {},
 })

@@ -17,8 +17,13 @@ const items = ref([
 
 <template>
 	<div class="card">
-		<Menubar :model="items" />
+		<Menubar :model="items" class="navbar" />
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.navbar {
+	display: flex;
+	flex: 1;
+}
+</style>
