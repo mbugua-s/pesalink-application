@@ -8,6 +8,7 @@ import Button from 'primevue/button'
 import { DataTable } from 'primevue'
 import { Column } from 'primevue'
 import { Menubar } from 'primevue'
+import ToastService from 'primevue/toastservice'
 
 import App from './App.vue'
 import router from './router'
@@ -21,7 +22,7 @@ app.use(PrimeVue, {
 		preset: Aura,
 	},
 })
-
+app.use(ToastService)
 app.mount('#app')
 
 // Disabling eslint here as we need to declare the PrimeVue components that will be used
