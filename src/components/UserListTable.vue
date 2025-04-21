@@ -5,6 +5,10 @@ import type { User } from '@/types/User'
 import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
 import type { DataTableRowClickEvent } from 'primevue/datatable'
+import { FilterMatchMode } from '@primevue/core/api'
+import { InputIcon } from 'primevue'
+import { IconField } from 'primevue'
+import { InputText } from 'primevue'
 import router from '@/router'
 
 const userStore = useUserStore()
@@ -21,6 +25,10 @@ const onRowSelect = (event: DataTableRowClickEvent) => {
 	router.push('/viewUser')
 	// console.log(event.data as User)
 }
+
+const filters = ref({
+	global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+})
 </script>
 
 <template>
@@ -31,13 +39,26 @@ const onRowSelect = (event: DataTableRowClickEvent) => {
 		paginator
 		paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
 		currentPageReportTemplate="{first} to {last} of {totalRecords}"
-		:rows="10"
+		:rows="5"
 		v-model:selection="selectedProduct"
 		selectionMode="single"
 		dataKey="id"
 		:metaKeySelection="false"
 		@rowSelect="onRowSelect"
+		v-model:filters="filters"
+		:globalFilterFields="['name', 'email']"
 	>
+		<template #header>
+			<div class="flex justify-end">
+				<IconField>
+					<InputIcon>
+						<i class="pi pi-search"></i>
+					</InputIcon>
+					<InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+				</IconField>
+			</div>
+		</template>
+		<template #empty> No users found. </template>
 		<Column field="name" header="NAME"></Column>
 		<Column field="username" header="USERNAME"></Column>
 		<Column field="email" header="EMAIL"></Column>

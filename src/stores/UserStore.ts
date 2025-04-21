@@ -1,4 +1,5 @@
 // import { ref, computed } from 'vue'
+import type { CreateUserFormDetails } from '@/types/CreateUserFormDetails'
 import type { User } from '@/types/User'
 import { defineStore } from 'pinia'
 
@@ -277,16 +278,43 @@ export const useUserStore = defineStore('User', {
 	}),
 	getters: {
 		// Shuffling the array to be able to demonstrate pagination better
-		getAllUsers: (state): User[] => [
-			...shuffleArray(state.allUsers),
-			...shuffleArray(state.allUsers),
-			...shuffleArray(state.allUsers),
-		],
+		// getAllUsers: (state): User[] => [
+		// 	...shuffleArray(state.allUsers),
+		// 	...shuffleArray(state.allUsers),
+		// 	...shuffleArray(state.allUsers),
+		// ],
+		getAllUsers: (state): User[] => state.allUsers,
 		getSelectedUser: (state): User => state.selectedUser,
 	},
 	actions: {
 		setSelectedUser(selectedUser: User) {
 			this.selectedUser = selectedUser
+		},
+		addUser(userDetails: CreateUserFormDetails) {
+			const addedUser: User = {
+				name: userDetails.name,
+				username: userDetails.username,
+				email: userDetails.email,
+				address: {
+					street: '',
+					suite: '',
+					city: '',
+					zipcode: '',
+					geo: {
+						lat: '',
+						lng: '',
+					},
+				},
+				phone: userDetails.phone.toString(),
+				website: '',
+				company: {
+					name: userDetails.companyName,
+					catchPhrase: '',
+					bs: '',
+				},
+			}
+
+			this.allUsers.push(addedUser)
 		},
 	},
 })

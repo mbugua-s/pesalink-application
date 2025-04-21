@@ -23,7 +23,7 @@ const selectedUser = computed<User>(() => userStore.getSelectedUser)
 					<p class="user-details-user-name">"{{ selectedUser.username }}"</p>
 				</div>
 
-				<Divider layout="vertical" />
+				<!-- <Divider layout="vertical" /> -->
 				<div class="user-card-additional-details">
 					<div class="details-section">
 						<p class="details-label">General</p>
@@ -105,6 +105,7 @@ const selectedUser = computed<User>(() => userStore.getSelectedUser)
 	display: flex;
 	flex: 1;
 	flex-direction: column;
+	margin-left: 2vw;
 }
 
 img {
