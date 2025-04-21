@@ -277,12 +277,16 @@ export const useUserStore = defineStore('User', {
 	}),
 	getters: {
 		// Shuffling the array to be able to demonstrate pagination better
-		getAllUsers: (state) => [
+		getAllUsers: (state): User[] => [
 			...shuffleArray(state.allUsers),
 			...shuffleArray(state.allUsers),
 			...shuffleArray(state.allUsers),
 		],
-		getSelectedUser: (state) => state.selectedUser,
+		getSelectedUser: (state): User => state.selectedUser,
 	},
-	actions: {},
+	actions: {
+		setSelectedUser(selectedUser: User) {
+			this.selectedUser = selectedUser
+		},
+	},
 })
