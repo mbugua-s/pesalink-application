@@ -2,7 +2,7 @@
 import { DataTable } from 'primevue'
 import { Column } from 'primevue'
 import type { User } from '@/types/User'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
 import type { DataTableRowClickEvent } from 'primevue/datatable'
 import { FilterMatchMode } from '@primevue/core/api'
@@ -28,6 +28,12 @@ const onRowSelect = (event: DataTableRowClickEvent) => {
 
 const filters = ref({
 	global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+})
+
+onMounted(async () => {
+	if (allUsers.value.length === 0) {
+		await userStore.fetchAllUsers()
+	}
 })
 </script>
 

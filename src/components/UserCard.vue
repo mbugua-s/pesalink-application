@@ -1,8 +1,6 @@
 <script setup lang="ts">
-// import { DataTable } from 'primevue'
-// import { Column } from 'primevue'
 import type { User } from '@/types/User'
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
 import Card from 'primevue/card'
 import Divider from 'primevue/divider'
@@ -10,13 +8,18 @@ import UserCardRow from '@/components/UserCardRow.vue'
 
 const userStore = useUserStore()
 const selectedUser = computed<User>(() => userStore.getSelectedUser)
+// const selectedUser = ref()
+
+// onMounted(() => {
+// 	selectedUser.value = userStore.getSelectedUser as User
+// })
 </script>
 
 <template>
 	<Card class="card-container">
 		<template #title> <h1>User Details</h1> </template>
 		<template #content>
-			<div class="user-card">
+			<div v-if="selectedUser" class="user-card" data-testid="user-card">
 				<div class="user-card-key-details">
 					<img src="/src/assets/person.jfif" alt="profile-photo" />
 					<p class="user-details-name">{{ selectedUser.name }}</p>
@@ -79,6 +82,7 @@ const selectedUser = computed<User>(() => userStore.getSelectedUser)
 					</div>
 				</div>
 			</div>
+			<div v-else>No user selected. Please click on a user from the list and try again</div>
 		</template>
 	</Card>
 </template>
