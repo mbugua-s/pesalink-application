@@ -53,6 +53,7 @@ onMounted(async () => {
 		@rowSelect="onRowSelect"
 		v-model:filters="filters"
 		:globalFilterFields="['name', 'email']"
+		data-testid="user-list-table"
 	>
 		<template #header>
 			<div class="flex justify-end">

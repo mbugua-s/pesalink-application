@@ -11,7 +11,11 @@ const createWrapper = (component: Component, options = {}) => {
 				createTestingPinia({
 					createSpy: vi.fn,
 				}),
+				// PrimeVue,
 			],
+			// components: {
+			// 	Button,
+			// },
 		},
 		...options,
 	})

@@ -7,7 +7,7 @@ import Aura from '@primeuix/themes/aura'
 import Button from 'primevue/button'
 import { DataTable } from 'primevue'
 import { Column } from 'primevue'
-import { Menubar } from 'primevue'
+// import { Menubar } from 'primevue'
 import ToastService from 'primevue/toastservice'
 
 import App from './App.vue'
@@ -32,5 +32,5 @@ app.mount('#app')
 app.component('Button', Button)
 app.component('DataTable', DataTable)
 app.component('Column', Column)
-app.component('Menubar', Menubar)
+// app.component('Menubar', Menubar)
 /* eslint-enable */

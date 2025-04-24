@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { User } from '@/types/User'
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { useUserStore } from '@/stores/UserStore'
 import Card from 'primevue/card'
 import Divider from 'primevue/divider'
@@ -8,11 +8,6 @@ import UserCardRow from '@/components/UserCardRow.vue'
 
 const userStore = useUserStore()
 const selectedUser = computed<User>(() => userStore.getSelectedUser)
-// const selectedUser = ref()
-
-// onMounted(() => {
-// 	selectedUser.value = userStore.getSelectedUser as User
-// })
 </script>
 
 <template>
