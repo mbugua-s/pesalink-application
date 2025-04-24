@@ -1,4 +1,4 @@
-import './assets/main.scss'
+import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -7,7 +7,8 @@ import Aura from '@primeuix/themes/aura'
 import Button from 'primevue/button'
 import { DataTable } from 'primevue'
 import { Column } from 'primevue'
-import { Menubar } from 'primevue'
+// import { Menubar } from 'primevue'
+import ToastService from 'primevue/toastservice'
 
 import App from './App.vue'
 import router from './router'
@@ -21,7 +22,7 @@ app.use(PrimeVue, {
 		preset: Aura,
 	},
 })
-
+app.use(ToastService)
 app.mount('#app')
 
 // Disabling eslint here as we need to declare the PrimeVue components that will be used
@@ -31,5 +32,5 @@ app.mount('#app')
 app.component('Button', Button)
 app.component('DataTable', DataTable)
 app.component('Column', Column)
-app.component('Menubar', Menubar)
+// app.component('Menubar', Menubar)
 /* eslint-enable */

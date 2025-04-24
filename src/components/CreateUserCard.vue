@@ -1,0 +1,214 @@
+<script setup lang="ts">
+import Card from 'primevue/card'
+import { InputNumber } from 'primevue'
+import { InputText } from 'primevue'
+import { Message } from 'primevue'
+import FloatLabel from 'primevue/floatlabel'
+import { ref } from 'vue'
+
+import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { Form, type FormSubmitEvent } from '@primevue/forms'
+import { useToast } from 'primevue/usetoast'
+import { Toast } from 'primevue'
+import { z } from 'zod'
+import router from '@/router'
+import { useUserStore } from '@/stores/UserStore'
+import type { CreateUserFormDetails } from '@/types/CreateUserFormDetails'
+
+const toast = useToast()
+const userStore = useUserStore()
+
+// Using actual values for the initial values for the purposes of testing
+
+const initialValues = ref({
+	fullName: 'First Last',
+	username: 'user-name',
+	email: 'username@test.com',
+	phoneNumber: 7234567891,
+	companyName: 'Company Name',
+})
+
+// const initialValues = ref({
+// 	fullName: '',
+// 	username: '',
+// 	email: '',
+// 	phoneNumber: '',
+// 	companyName: '',
+// })
+
+const resolver = ref(
+	zodResolver(
+		z.object({
+			fullName: z.string().min(1, { message: 'Name is required.' }),
+			username: z.string().min(1, { message: 'Username is required.' }),
+			email: z
+				.string()
+				.min(1, { message: 'Email is required.' })
+				.email({ message: 'Invalid email address.' }),
+			phoneNumber: z.number().positive({ message: 'Please provide a valid phone number' }),
+			companyName: z.string().min(1, { message: 'Company name is required.' }),
+		}),
+	),
+)
+
+const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
+	if (valid) {
+		toast.add({ severity: 'success', summary: 'User details captured', life: 2000 })
+		const createdUserDetails: CreateUserFormDetails = {
+			name: values.fullName,
+			username: values.username,
+			email: values.email,
+			phone: values.phoneNumber,
+			companyName: values.companyName,
+		}
+		console.log(createdUserDetails)
+		userStore.addUser(createdUserDetails)
+		router.replace('/')
+	} else {
+		toast.add({ severity: 'error', summary: 'Invalid user details', life: 2000 })
+	}
+}
+</script>
+
+<template>
+	<Card class="card-container">
+		<template #title> <h1 class="card-title">Create A New User</h1> </template>
+		<template #content>
+			<div class="user-card">
+				<Form
+					v-slot="$form"
+					:resolver="resolver"
+					:initialValues="initialValues"
+					@submit="onFormSubmit"
+					class="form-container"
+				>
+					<div class="form-input">
+						<FloatLabel variant="in">
+							<InputText
+								class="input-field"
+								name="fullName"
+								type="text"
+								autocomplete="off"
+							/>
+							<label for="fullName">Full Name</label>
+						</FloatLabel>
+						<Message
+							v-if="$form.fullName?.invalid"
+							severity="error"
+							size="small"
+							variant="simple"
+							>{{ $form.fullName.error?.message }}</Message
+						>
+					</div>
+					<div class="form-input">
+						<FloatLabel variant="in">
+							<InputText class="input-field" name="username" type="text" />
+							<label for="username">User Name</label>
+						</FloatLabel>
+						<Message
+							v-if="$form.username?.invalid"
+							severity="error"
+							size="small"
+							variant="simple"
+							>{{ $form.username.error?.message }}</Message
+						>
+					</div>
+					<div class="form-input">
+						<FloatLabel variant="in">
+							<InputText class="input-field" name="email" type="text" />
+							<label for="email">Email Address</label>
+						</FloatLabel>
+						<Message
+							v-if="$form.email?.invalid"
+							severity="error"
+							size="small"
+							variant="simple"
+							>{{ $form.email.error?.message }}</Message
+						>
+					</div>
+					<div class="form-input">
+						<FloatLabel variant="in">
+							<InputNumber
+								class="input-field"
+								name="phoneNumber"
+								:useGrouping="false"
+							/>
+							<label for="phoneNumber">Phone Number</label>
+						</FloatLabel>
+						<Message
+							v-if="$form.phoneNumber?.invalid"
+							severity="error"
+							size="small"
+							variant="simple"
+							>{{ $form.phoneNumber.error?.message }}</Message
+						>
+					</div>
+					<div class="form-input">
+						<FloatLabel variant="in">
+							<InputText class="input-field" name="companyName" type="text" />
+							<label for="companyName">Company Name</label>
+						</FloatLabel>
+						<Message
+							v-if="$form.companyName?.invalid"
+							severity="error"
+							size="small"
+							variant="simple"
+							>{{ $form.companyName.error?.message }}</Message
+						>
+					</div>
+					<Button
+						type="submit"
+						severity="primary"
+						label="Submit"
+						class="submit-button"
+					></Button>
+				</Form>
+			</div>
+			<Toast />
+		</template>
+	</Card>
+</template>
+
+<style scoped>
+.card-container {
+	max-width: 70vw;
+	margin: auto;
+}
+
+.card-title {
+	display: flex;
+	justify-content: center;
+}
+
+.user-card {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+}
+
+.form-container {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.form-input {
+	display: flex;
+	flex-direction: column;
+	margin: 1vh 1vw;
+	width: 40vw;
+	justify-content: center;
+	align-items: center;
+}
+
+.submit-button {
+	display: flex;
+	margin: auto;
+	width: 20vw;
+}
+
+.input-field {
+	min-width: 20vw;
+}
+</style>
