@@ -4,13 +4,9 @@ import type { User } from '@/types/User'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-const axios_instance = axios.create({
-	baseURL: 'https://jsonplaceholder.typicode.com/users',
-	timeout: 5000,
-	headers: {
-		'Content-Type': 'application/json',
-	},
-})
+axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/users'
+axios.defaults.timeout = 5000
+axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 export const useUserStore = defineStore('User', {
 	state: () => ({
@@ -24,7 +20,7 @@ export const useUserStore = defineStore('User', {
 	actions: {
 		async fetchAllUsers(): Promise<boolean> {
 			try {
-				const response = await axios_instance.get('/')
+				const response = await axios.get('/')
 				const allUsers: User[] = await response.data
 				this.allUsers = allUsers
 				return true
@@ -55,7 +51,7 @@ export const useUserStore = defineStore('User', {
 						lng: '',
 					},
 				},
-				phone: userDetails.phone.toString(),
+				phone: userDetails.phone,
 				website: '',
 				company: {
 					name: userDetails.companyName,

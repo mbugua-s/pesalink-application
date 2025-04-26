@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Card from 'primevue/card'
-import { InputNumber } from 'primevue'
 import { InputText } from 'primevue'
 import { Message } from 'primevue'
 import FloatLabel from 'primevue/floatlabel'
@@ -21,10 +20,11 @@ const userStore = useUserStore()
 // Using actual values for the initial values for the purposes of testing
 
 const initialValues = ref({
-	fullName: 'First Last',
+	firstName: 'First',
+	lastName: 'Last',
 	username: 'user-name',
 	email: 'username@test.com',
-	phoneNumber: 7234567891,
+	phoneNumber: '+254740538943',
 	companyName: 'Company Name',
 })
 
@@ -39,14 +39,21 @@ const initialValues = ref({
 const resolver = ref(
 	zodResolver(
 		z.object({
-			fullName: z.string().min(1, { message: 'Name is required.' }),
-			username: z.string().min(1, { message: 'Username is required.' }),
+			firstName: z.string().trim().min(1, { message: 'First Name is required.' }),
+			lastName: z.string().trim().min(1, { message: 'Last Name is required.' }),
+			username: z.string().trim().min(1, { message: 'Username is required.' }),
 			email: z
 				.string()
 				.min(1, { message: 'Email is required.' })
 				.email({ message: 'Invalid email address.' }),
-			phoneNumber: z.number().positive({ message: 'Please provide a valid phone number' }),
-			companyName: z.string().min(1, { message: 'Company name is required.' }),
+			phoneNumber: z
+				.string()
+				.trim()
+				.regex(
+					/^(\+?\d{1,3})?[\s.-]?(\(?\d{3}\)?)[\s.-]?(\d{3})[\s.-]?(\d{4})$/,
+					'Invalid phone number',
+				),
+			companyName: z.string().trim().min(1, { message: 'Company name is required.' }),
 		}),
 	),
 )
@@ -55,13 +62,13 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 	if (valid) {
 		toast.add({ severity: 'success', summary: 'User details captured', life: 2000 })
 		const createdUserDetails: CreateUserFormDetails = {
-			name: values.fullName,
+			name: `${values.firstName} ${values.lastName}`,
 			username: values.username,
 			email: values.email,
 			phone: values.phoneNumber,
 			companyName: values.companyName,
 		}
-		console.log(createdUserDetails)
+		// console.log(createdUserDetails)
 		userStore.addUser(createdUserDetails)
 		router.replace('/')
 	} else {
@@ -86,18 +93,36 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 						<FloatLabel variant="in">
 							<InputText
 								class="input-field"
-								name="fullName"
+								name="firstName"
 								type="text"
 								autocomplete="off"
 							/>
-							<label for="fullName">Full Name</label>
+							<label for="firstName">First Name</label>
 						</FloatLabel>
 						<Message
-							v-if="$form.fullName?.invalid"
+							v-if="$form.firstName?.invalid"
 							severity="error"
 							size="small"
 							variant="simple"
-							>{{ $form.fullName.error?.message }}</Message
+							>{{ $form.firstName.error?.message }}</Message
+						>
+					</div>
+					<div class="form-input">
+						<FloatLabel variant="in">
+							<InputText
+								class="input-field"
+								name="lastName"
+								type="text"
+								autocomplete="off"
+							/>
+							<label for="lastName">Last Name</label>
+						</FloatLabel>
+						<Message
+							v-if="$form.lastName?.invalid"
+							severity="error"
+							size="small"
+							variant="simple"
+							>{{ $form.lastName.error?.message }}</Message
 						>
 					</div>
 					<div class="form-input">
@@ -128,11 +153,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 					</div>
 					<div class="form-input">
 						<FloatLabel variant="in">
-							<InputNumber
-								class="input-field"
-								name="phoneNumber"
-								:useGrouping="false"
-							/>
+							<InputText class="input-field" name="phoneNumber" type="text" />
 							<label for="phoneNumber">Phone Number</label>
 						</FloatLabel>
 						<Message
