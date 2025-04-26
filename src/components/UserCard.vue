@@ -22,11 +22,14 @@ const getFirstLetterOfName = (name: string): string => {
 
 <template>
 	<Card class="card-container">
-		<template #title> <h1>User Details</h1> </template>
+		<template #title>
+			<div class="title">
+				<h1>User Details</h1>
+			</div>
+		</template>
 		<template #content>
 			<div v-if="selectedUser" class="user-card" data-testid="user-card">
 				<div class="user-card-key-details">
-					<!-- <img src="/src/assets/person.jfif" alt="profile-photo" /> -->
 					<Avatar
 						:label="getFirstLetterOfName(selectedUser.name)"
 						class="mr-2"
@@ -98,6 +101,10 @@ const getFirstLetterOfName = (name: string): string => {
 </template>
 
 <style scoped>
+.title {
+	display: flex;
+	justify-content: center;
+}
 .card-container {
 	max-width: 70vw;
 	margin: auto;
@@ -105,6 +112,7 @@ const getFirstLetterOfName = (name: string): string => {
 
 .user-card {
 	display: flex;
+	flex-direction: column;
 	flex: 1;
 }
 
@@ -113,6 +121,8 @@ const getFirstLetterOfName = (name: string): string => {
 	flex-direction: column;
 	/* width: 30%; */
 	align-items: center;
+	justify-content: center;
+	margin-bottom: 5vh;
 }
 
 .user-card-additional-details {
@@ -148,6 +158,7 @@ img {
 	/* margin: auto; */
 	font-size: 25px;
 	font-weight: bold;
+	margin-bottom: 0%;
 }
 
 .user-details-user-name {

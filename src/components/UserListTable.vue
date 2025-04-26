@@ -68,6 +68,9 @@ onMounted(async () => {
 </script>
 
 <template>
+	<div class="title">
+		<h1>All Users</h1>
+	</div>
 	<DataTable
 		:value="allUsers"
 		tableStyle="min-width: 50rem"
@@ -124,5 +127,11 @@ onMounted(async () => {
 
 .user-details-name {
 	margin-left: 1vw;
+}
+
+.title {
+	display: flex;
+	justify-content: center;
+	/* margin: auto; */
 }
 </style>

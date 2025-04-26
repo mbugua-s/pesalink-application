@@ -17,8 +17,6 @@ vi.mock('axios', async () => {
 	}
 })
 
-// vi.spyOn(axios_instance, 'get').mockResolvedValue({ data: [{ id: 1, name: 'Mock User' }] })
-
 describe('User Store', () => {
 	beforeEach(() => {
 		setActivePinia(createPinia())
