@@ -22,13 +22,19 @@ export const useUserStore = defineStore('User', {
 		getSelectedUser: (state): User => state.selectedUser as User,
 	},
 	actions: {
-		async fetchAllUsers() {
+		async fetchAllUsers(): Promise<boolean> {
 			try {
 				const response = await axios_instance.get('/')
 				const allUsers: User[] = await response.data
 				this.allUsers = allUsers
+				return true
+				// In a real production app we would log the error using a tool
+				// like Sentry. For now, we won't use the error generated, hence
+				// disabling eslint here
+				/* eslint-disable */
 			} catch (error) {
-				console.error(error)
+				/* eslint-enable */
+				return false
 			}
 		},
 		setSelectedUser(selectedUser: User) {

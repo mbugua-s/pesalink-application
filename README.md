@@ -80,6 +80,7 @@ docker stop [container-id]
 - SEO and metrics such as Largest Contentful Paint (LCP) are not critical to the application, hence it uses Client-Side Rendering
 - Given that the only details that are displayed when viewing all users are the: - name - username - phone - company name, and - email address,
   when adding a new user, these are the only user details that are captured when creating a user.
+- The /create method of the API does not actually create the user, so their details are added directly to the array in the store that has the rest of the fetched users
 
 ## Tools Used
 

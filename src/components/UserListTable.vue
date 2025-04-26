@@ -10,8 +10,11 @@ import { InputIcon } from 'primevue'
 import { IconField } from 'primevue'
 import { InputText } from 'primevue'
 import { Avatar } from 'primevue'
+import { Toast } from 'primevue'
+import { useToast } from 'primevue/usetoast'
 import router from '@/router'
 
+const toast = useToast()
 const userStore = useUserStore()
 const allUsers = computed<User[]>(() => userStore.getAllUsers)
 
@@ -40,9 +43,26 @@ const getFirstLetterOfName = (name: string): string => {
 	}
 }
 
+const isTableLoading = ref(true)
+
 onMounted(async () => {
+	// If we already have fetched users, then retrieve them from the store
+	// Otherwise the user that was created will be lost
 	if (allUsers.value.length === 0) {
-		await userStore.fetchAllUsers()
+		const result: boolean = await userStore.fetchAllUsers()
+		isTableLoading.value = false
+
+		if (result) {
+			toast.add({ severity: 'success', summary: 'Users fetched successfully', life: 3000 })
+		} else {
+			toast.add({
+				severity: 'error',
+				summary: 'Failed to fetch users. Please refresh the page and try again',
+				life: 3000,
+			})
+		}
+	} else {
+		isTableLoading.value = false
 	}
 })
 </script>
@@ -64,6 +84,8 @@ onMounted(async () => {
 		v-model:filters="filters"
 		:globalFilterFields="['name', 'email']"
 		data-testid="user-list-table"
+		showGridlines
+		:loading="isTableLoading"
 	>
 		<template #header>
 			<div class="flex justify-end">
@@ -71,11 +93,12 @@ onMounted(async () => {
 					<InputIcon>
 						<i class="pi pi-search"></i>
 					</InputIcon>
-					<InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+					<InputText v-model="filters['global'].value" placeholder="Name or Email" />
 				</IconField>
 			</div>
 		</template>
 		<template #empty> No users found. </template>
+		<template #loading> Loading users... </template>
 		<Column field="name" header="NAME">
 			<template #body="{ data }">
 				<div class="avatar-name">
@@ -89,6 +112,7 @@ onMounted(async () => {
 		<Column field="phone" header="PHONE"></Column>
 		<Column field="company.name" header="COMPANY"></Column>
 	</DataTable>
+	<Toast />
 </template>
 
 <style scoped>
