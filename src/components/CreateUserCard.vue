@@ -19,22 +19,23 @@ const userStore = useUserStore()
 
 // Using actual values for the initial values for the purposes of testing
 
-const initialValues = ref({
-	firstName: 'First',
-	lastName: 'Last',
-	username: 'user-name',
-	email: 'username@test.com',
-	phoneNumber: '+254740538943',
-	companyName: 'Company Name',
-})
-
 // const initialValues = ref({
-// 	fullName: '',
-// 	username: '',
-// 	email: '',
-// 	phoneNumber: '',
-// 	companyName: '',
+// 	firstName: 'First',
+// 	lastName: 'Last',
+// 	username: 'user-name',
+// 	email: 'username@test.com',
+// 	phoneNumber: '+254740538943',
+// 	companyName: 'Company Name',
 // })
+
+const initialValues = ref({
+	firstName: '',
+	lastName: '',
+	username: '',
+	email: '',
+	phoneNumber: '',
+	companyName: '',
+})
 
 const resolver = ref(
 	zodResolver(
@@ -72,7 +73,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 		userStore.addUser(createdUserDetails)
 		router.replace('/')
 	} else {
-		toast.add({ severity: 'error', summary: 'Invalid user details', life: 2000 })
+		toast.add({ severity: 'error', summary: 'Invalid user details' })
 	}
 }
 </script>
@@ -104,6 +105,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 							severity="error"
 							size="small"
 							variant="simple"
+							data-testid="create-user-form-first-name-message"
 							>{{ $form.firstName.error?.message }}</Message
 						>
 					</div>
@@ -182,10 +184,11 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 						severity="primary"
 						label="Submit"
 						class="submit-button"
+						data-testid="create-user-card-submit-button"
 					></Button>
 				</Form>
 			</div>
-			<Toast />
+			<Toast data-testid="create-user-card-toast" />
 		</template>
 	</Card>
 </template>

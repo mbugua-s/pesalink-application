@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 import type { User } from '@/types/User'
 // import any store you want to interact with in tests
 
-export const createWrapper = (component: Component, options = {}) => {
+export const createWrapper = (component: Component, componentProps = {}, options = {}) => {
 	return mount(component, {
 		global: {
 			plugins: [
@@ -14,10 +14,9 @@ export const createWrapper = (component: Component, options = {}) => {
 				}),
 				// PrimeVue,
 			],
-			// components: {
-			// 	Button,
-			// },
 		},
+		attachTo: document.body,
+		props: componentProps,
 		...options,
 	})
 }
