@@ -9,6 +9,7 @@ import { FilterMatchMode } from '@primevue/core/api'
 import { InputIcon } from 'primevue'
 import { IconField } from 'primevue'
 import { InputText } from 'primevue'
+import { Avatar } from 'primevue'
 import router from '@/router'
 
 const userStore = useUserStore()
@@ -29,6 +30,15 @@ const onRowSelect = (event: DataTableRowClickEvent) => {
 const filters = ref({
 	global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
+
+const getFirstLetterOfName = (name: string): string => {
+	if (name.length < 0) {
+		throw new Error(`Invalid string length: ${name.length}`)
+	} else {
+		const nameAsArray = name.split('')
+		return nameAsArray[0].toUpperCase()
+	}
+}
 
 onMounted(async () => {
 	if (allUsers.value.length === 0) {
@@ -66,7 +76,14 @@ onMounted(async () => {
 			</div>
 		</template>
 		<template #empty> No users found. </template>
-		<Column field="name" header="NAME"></Column>
+		<Column field="name" header="NAME">
+			<template #body="{ data }">
+				<div class="avatar-name">
+					<Avatar :label="getFirstLetterOfName(data.name)" class="mr-2" size="normal" />
+					<p class="user-details-name">{{ data.name }}</p>
+				</div>
+			</template>
+		</Column>
 		<Column field="username" header="USERNAME"></Column>
 		<Column field="email" header="EMAIL"></Column>
 		<Column field="phone" header="PHONE"></Column>
@@ -74,4 +91,14 @@ onMounted(async () => {
 	</DataTable>
 </template>
 
-<style scoped></style>
+<style scoped>
+.avatar-name {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.user-details-name {
+	margin-left: 1vw;
+}
+</style>

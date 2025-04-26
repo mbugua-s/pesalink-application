@@ -5,9 +5,19 @@ import { useUserStore } from '@/stores/UserStore'
 import Card from 'primevue/card'
 import Divider from 'primevue/divider'
 import UserCardRow from '@/components/UserCardRow.vue'
+import { Avatar } from 'primevue'
 
 const userStore = useUserStore()
 const selectedUser = computed<User>(() => userStore.getSelectedUser)
+
+const getFirstLetterOfName = (name: string): string => {
+	if (name.length < 0) {
+		throw new Error(`Invalid string length: ${name.length}`)
+	} else {
+		const nameAsArray = name.split('')
+		return nameAsArray[0].toUpperCase()
+	}
+}
 </script>
 
 <template>
@@ -16,7 +26,12 @@ const selectedUser = computed<User>(() => userStore.getSelectedUser)
 		<template #content>
 			<div v-if="selectedUser" class="user-card" data-testid="user-card">
 				<div class="user-card-key-details">
-					<img src="/src/assets/person.jfif" alt="profile-photo" />
+					<!-- <img src="/src/assets/person.jfif" alt="profile-photo" /> -->
+					<Avatar
+						:label="getFirstLetterOfName(selectedUser.name)"
+						class="mr-2"
+						size="xlarge"
+					/>
 					<p class="user-details-name">{{ selectedUser.name }}</p>
 					<p class="user-details-user-name">"{{ selectedUser.username }}"</p>
 				</div>

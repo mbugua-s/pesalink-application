@@ -86,3 +86,4 @@ docker stop [container-id]
 - Pinia (State Management)
 - PrimeVue (Components)
 - Vitest (Unit and Component Tests)
+- Zod (Validation)

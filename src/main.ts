@@ -5,6 +5,7 @@ import { createPinia } from 'pinia'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import Button from 'primevue/button'
+import Avatar from 'primevue/avatar'
 import { DataTable } from 'primevue'
 import { Column } from 'primevue'
 // import { Menubar } from 'primevue'
@@ -32,5 +33,6 @@ app.mount('#app')
 app.component('Button', Button)
 app.component('DataTable', DataTable)
 app.component('Column', Column)
+app.component('Avatar', Avatar)
 // app.component('Menubar', Menubar)
 /* eslint-enable */
