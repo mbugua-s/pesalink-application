@@ -47,9 +47,11 @@ Format using Prettier
 npm run format
 ```
 
-### Using Docker (WIP)
+### Using Docker (Experimental)
 
 If you have Docker installed, you can pull the image and run a container. The images are built as part of the CI/CD pipeline.
+NOTE: It's possible that the dev server is not accessible from outside the container. This is due to how Vite's dev server
+runs
 
 To pull the image:
 
