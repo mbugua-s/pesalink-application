@@ -144,6 +144,7 @@ img {
 	width: 100%;
 	padding-left: 2vw;
 	padding-right: 2vw;
+	flex-wrap: wrap;
 }
 
 .details-label {
