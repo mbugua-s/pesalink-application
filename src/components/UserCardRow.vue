@@ -9,9 +9,13 @@ const { dataKey, dataValue, removeBorderTop = false } = defineProps<Props>()
 </script>
 
 <template>
-	<div class="row-container" :style="removeBorderTop && 'border-top: none'">
-		<p class="row-key">{{ dataKey }}</p>
-		<p>{{ dataValue }}</p>
+	<div
+		class="row-container"
+		:style="removeBorderTop && 'border-top: none'"
+		data-testid="user-card-row"
+	>
+		<p class="row-key" data-testid="user-card-row-key">{{ dataKey }}</p>
+		<p data-testid="user-card-row-value">{{ dataValue }}</p>
 	</div>
 </template>
 

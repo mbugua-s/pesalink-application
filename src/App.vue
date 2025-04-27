@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 import NavBar from '@/components/NavBar.vue'
+import { Toast } from 'primevue'
 </script>
 
 <template>
 	<header>
 		<NavBar class="navbar" />
 	</header>
-
+	<Toast />
 	<RouterView />
 </template>
 

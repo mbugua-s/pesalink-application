@@ -2,6 +2,6 @@ export interface CreateUserFormDetails {
 	name: string
 	username: string
 	email: string
-	phone: number
+	phone: string
 	companyName: string
 }
