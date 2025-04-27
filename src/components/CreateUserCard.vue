@@ -73,7 +73,7 @@ const onFormSubmit = ({ valid, values }: FormSubmitEvent) => {
 		userStore.addUser(createdUserDetails)
 		router.replace('/')
 	} else {
-		toast.add({ severity: 'error', summary: 'Invalid user details' })
+		toast.add({ severity: 'error', summary: 'Invalid user details', life: 3000 })
 	}
 }
 </script>
